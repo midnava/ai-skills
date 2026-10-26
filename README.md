@@ -74,7 +74,7 @@ The project commit records the new submodule revision and generated files, so ot
 | Source | Destination in the project |
 | --- | --- |
 | `<pack>/agents/*.agent.md` | `.github/agents/<pack>-<name>.agent.md` |
-| `<pack>/instructions/*.instructions.md` | `.github/instructions/<pack>-<name>.instructions.md` |
+| `<pack>/instructions/*.md` | `.github/instructions/<pack>-<name>.md` |
 | `<pack>/prompts/*.prompt.md` | `.github/prompts/<pack>-<name>.prompt.md` |
 | `<pack>/skills/<skill>/...` | `.github/skills/<pack>-<skill>/...` |
 

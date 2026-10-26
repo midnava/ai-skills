@@ -32,7 +32,7 @@ foreach ($pack in $packs) {
 
     $instructionsDir = Join-Path $pack.FullName 'instructions'
     if (Test-Path -LiteralPath $instructionsDir -PathType Container) {
-        foreach ($file in Get-ChildItem -LiteralPath $instructionsDir -File -Recurse -Filter '*.instructions.md') {
+        foreach ($file in Get-ChildItem -LiteralPath $instructionsDir -File -Recurse -Filter '*.md') {
             $inside = $file.FullName.Substring($instructionsDir.Length).TrimStart([char[]]@('\', '/'))
             $flatName = $inside -replace '[\\/]', '-'
             $relativeTarget = ".github\instructions\$($pack.Name)-$flatName"
@@ -45,7 +45,7 @@ foreach ($pack in $packs) {
 
     $promptsDir = Join-Path $pack.FullName 'prompts'
     if (Test-Path -LiteralPath $promptsDir -PathType Container) {
-        foreach ($file in Get-ChildItem -LiteralPath $promptsDir -File -Recurse -Filter '*.prompt.md') {
+        foreach ($file in Get-ChildItem -LiteralPath $promptsDir -File -Recurse -Filter '*.md') {
             $inside = $file.FullName.Substring($promptsDir.Length).TrimStart([char[]]@('\', '/'))
             $flatName = $inside -replace '[\\/]', '-'
             $relativeTarget = ".github\prompts\$($pack.Name)-$flatName"
