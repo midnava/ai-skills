@@ -12,7 +12,8 @@ $plan = @{}
 $packs = Get-ChildItem -LiteralPath $sourceRoot -Directory | Where-Object {
     (Test-Path -LiteralPath (Join-Path $_.FullName 'agents') -PathType Container) -or
     (Test-Path -LiteralPath (Join-Path $_.FullName 'instructions') -PathType Container) -or
-    (Test-Path -LiteralPath (Join-Path $_.FullName 'skills') -PathType Container)
+    (Test-Path -LiteralPath (Join-Path $_.FullName 'skills') -PathType Container) -or
+    (Test-Path -LiteralPath (Join-Path $_.FullName 'prompts') -PathType Container)
 }
 
 foreach ($pack in $packs) {
@@ -35,6 +36,19 @@ foreach ($pack in $packs) {
             $inside = $file.FullName.Substring($instructionsDir.Length).TrimStart([char[]]@('\', '/'))
             $flatName = $inside -replace '[\\/]', '-'
             $relativeTarget = ".github\instructions\$($pack.Name)-$flatName"
+            if ($plan.ContainsKey($relativeTarget)) {
+                throw "Two source files map to '$relativeTarget'. Rename one of them."
+            }
+            $plan[$relativeTarget] = $file.FullName
+        }
+    }
+
+    $promptsDir = Join-Path $pack.FullName 'prompts'
+    if (Test-Path -LiteralPath $promptsDir -PathType Container) {
+        foreach ($file in Get-ChildItem -LiteralPath $promptsDir -File -Recurse -Filter '*.prompt.md') {
+            $inside = $file.FullName.Substring($promptsDir.Length).TrimStart([char[]]@('\', '/'))
+            $flatName = $inside -replace '[\\/]', '-'
+            $relativeTarget = ".github\prompts\$($pack.Name)-$flatName"
             if ($plan.ContainsKey($relativeTarget)) {
                 throw "Two source files map to '$relativeTarget'. Rename one of them."
             }
@@ -66,7 +80,7 @@ foreach ($pack in $packs) {
 # and skill folders with a current pack prefix are replaced; unrelated files stay.
 foreach ($pack in $packs) {
     $prefix = "$($pack.Name)-"
-    foreach ($relativeDir in @('.github\agents', '.github\instructions')) {
+    foreach ($relativeDir in @('.github\agents', '.github\instructions', '.github\prompts')) {
         $destination = Join-Path $projectRoot $relativeDir
         if (Test-Path -LiteralPath $destination -PathType Container) {
             Get-ChildItem -LiteralPath $destination -File -Force |
