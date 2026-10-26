@@ -1,6 +1,6 @@
 # ai-skills
 
-A central repository for reusable agents, instructions, prompts, and skills. Add it to a consuming project as the `.ai-skills` submodule. Use Git to update the submodule, then run `sync-ai.ps1` to collect pack files into the project’s `.github` directory.
+A central repository for reusable agents, instructions, prompts, and skills. Add it to a consuming project as the `.ai-skills` submodule. Run `update-ai-skills.ps1` from the submodule to update it and collect pack files into the project’s `.github` directory.
 
 ## Pack structure
 
@@ -29,7 +29,7 @@ Run these commands from the consuming project’s root:
 
 ```powershell
 git submodule add -b main https://github.com/midnava/ai-skills.git .ai-skills
-powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\sync-ai.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\update-ai-skills.ps1
 git add .gitmodules .ai-skills .github
 git commit -m "Add shared AI files"
 ```
@@ -41,29 +41,23 @@ Do not mount this repository at `.github`: the submodule would occupy that entir
 ```powershell
 git clone --recurse-submodules <PROJECT-URL>
 cd <PROJECT-DIRECTORY>
-powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\sync-ai.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\update-ai-skills.ps1
 ```
 
-For an existing clone, initialize the submodule before running the sync script:
-
-```powershell
-git submodule update --init --recursive .ai-skills
-powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\sync-ai.ps1
-```
+For an existing clone, the same command initializes the submodule if needed, updates it, and collects the files.
 
 ## Update shared files
 
 After publishing changes to `ai-skills`, run this from the consuming project root:
 
 ```powershell
-git submodule update --init --recursive --remote -- .ai-skills
-powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\sync-ai.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\.ai-skills\update-ai-skills.ps1
 git status
 git add .ai-skills .github
 git commit -m "Update shared AI files"
 ```
 
-The first command fetches the latest submodule commit. The sync script copies agents, instructions, prompts, and skills into `.github`. The project commit records both the new submodule revision and generated files, so other developers receive the same version.
+The wrapper runs `git submodule update --init --recursive --remote -- .ai-skills`, then runs `sync-ai.ps1`. The project commit records the new submodule revision and generated files, so other developers receive the same version.
 
 ## File mapping
 
