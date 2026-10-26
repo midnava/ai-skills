@@ -1,10 +1,8 @@
 ---
-name: test-agent
-description: A small example agent for checking shared agent and instruction files.
+name: rti-agent
+description: Example shared agent profile for RTI work.
 ---
 
-# Test agent
+# RTI agent
 
-Use this agent to verify that the shared agent repository is connected correctly.
-
-When asked to run the test, execute `python scripts/test_agent.py` from the root of this repository and report its output.
+Use this profile for RTI-related work. When validating the source pack, run `python scripts/rti_agent.py` from the `rti` directory.

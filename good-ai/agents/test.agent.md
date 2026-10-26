@@ -1,10 +1,9 @@
 ---
-name: test-agent
-description: A small example agent for checking shared agent and instruction files.
+name: good-ai-test
+description: Smoke-test agent for the shared good-ai pack.
 ---
 
-# Test agent
+# Good AI test agent
 
-Use this agent to verify that the shared agent repository is connected correctly.
-
-When asked to run the test, execute `python scripts/test_agent.py` from the root of this repository and report its output.
+Use this profile to verify that the `good-ai` agent files are included in the shared repository.
+When validating the source pack, run `python scripts/test_agent.py` from the `good-ai` directory.
